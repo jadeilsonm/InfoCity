@@ -13,7 +13,7 @@ export default function TabOneScreen() {
   const onPressHandler = () => {
     setEmail(initialText);
     setPassword(initialText);
-    const routerName = "modal";
+    const routerName = "two";
     // @ts-ignore
     navigation.navigate(routerName);
   }

@@ -43,7 +43,8 @@ export default function TabLayout() {
         options={{
           title: 'Tela dois',
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerStyle: { display: 'none' }
+          headerStyle: { display: 'none' },
+          headerShown: false,
         }}
       />
     </Tabs>
