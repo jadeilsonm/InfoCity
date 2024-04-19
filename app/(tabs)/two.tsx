@@ -1,46 +1,47 @@
-import { StyleSheet } from 'react-native';
-
+import { FlatList, Pressable, StyleSheet } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 import { Text, View } from '@/components/Themed';
 import { useEffect, useState } from 'react';
 import CardNameCity from '@/components/CardNameCity';
 
-interface Uf {
+type Uf = {
   id: number;
   sigla: string;
   nome: string;
   regiao: Regiao;
 }
 
-interface Mesorregiao {
+type Mesorregiao = {
   id: number;
   nome: string;
   UF: Uf;
 }
 
-interface Microrregiao {
+type Microrregiao = {
   id: number;
   nome: string;
   mesorregiao: Mesorregiao;
 }
 
-interface Regiao {
+type Regiao = {
   id: number;
   sigla: string;
   nome: string;
 }
 
-interface City {
+type City = {
   nome: string;
   microrregiao: Microrregiao;
   id: number;
 }
 
 export default function TabTwoScreen() {
+  const initialPage = 1;
   const [isLoading, setLoading] = useState(true);
   const [city, setCity] = useState([]);
   const [pages, setPages] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(initialPage);
   const [itemsPerPage, setItemsPerPage] = useState([0, 10]);
 
 
@@ -55,24 +56,27 @@ export default function TabTwoScreen() {
     setLoading(false);
   }, []);
 
-  const nextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-      setPages(city.slice(itemsPerPage[0] + 10, itemsPerPage[1] + 10));
-      setItemsPerPage([itemsPerPage[0] + 10, itemsPerPage[0] + 10]);
-    }
-  }
-
-   return ( <View style={styles.container}>
-      { isLoading ?? <Text>Loading...</Text> }
+   return (<View style={styles.container}>
       <Text style={styles.title}>Municipios</Text>
-   
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      { pages.map((city: City, index) => {
-        return <CardNameCity nome={city.nome} uf={city.microrregiao.mesorregiao.UF.sigla} key={index} id={city.id} />
-      }) }
+      <FlatList
+        data={city.slice((currentPage - 1) * 10, currentPage * 10)}
+        keyExtractor={(item: City, index) => index.toString()}
+        style={{width: '90%'}}
+        renderItem={({item, index}) => (
+          <CardNameCity nome={item.nome} uf={item.microrregiao.mesorregiao.UF.sigla} id={item.id} key={index} />
+        )}
+      />
+      <View style={styles.pagination} lightColor="#eee" darkColor="rgba(255,255,255,0.1)">
+        <Pressable onPress={() => setCurrentPage(currentPage <= initialPage ? initialPage : currentPage - 1)}>
+        <AntDesign name="caretleft" size={24} color="black" />
+        </Pressable>
+        <Text style={{fontSize: 20}}>{currentPage}</Text>
+        <Pressable onPress={() => setCurrentPage(currentPage >= totalPages ? initialPage : currentPage + 1)}>
+        <AntDesign name="caretright" size={24} color="black" />
+        </Pressable>
+      </View>
     </View>)
-
 }
 
 const styles = StyleSheet.create({
@@ -80,9 +84,20 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#ce5050',
+  },
+  pagination: {
+    flex: 0,
+    flexDirection: 'row',
+    width: '90%',
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#ce5050',
   },
   title: {
-    fontSize: 26,
+    marginTop: 45,
+    fontSize: 36,
     fontWeight: 'bold',
   },
   separator: {

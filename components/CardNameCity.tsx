@@ -11,7 +11,6 @@ export default function CardNameCity({ nome, uf, key, id }: { nome: string, uf: 
     navigation.navigate('details', { id: id, nome: nome });
   }
   return (
-    <View>
       <TouchableOpacity
           accessibilityRole="button"
           onPress={onPressHandler}
@@ -21,15 +20,15 @@ export default function CardNameCity({ nome, uf, key, id }: { nome: string, uf: 
           key={key}>
         <Text style={{textAlign: 'center', color: '#000'}}>{nome} - {uf}</Text>
       </TouchableOpacity>
-    </View>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
     padding: 15,
-    marginTop: 35,
-    width: '80%',
+    marginTop: 5,
+    width: '100%',
     backgroundColor: '#ffffff',
+    borderRadius: 12,
   }
 });

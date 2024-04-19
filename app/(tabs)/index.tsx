@@ -1,6 +1,6 @@
 import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { Text, View } from '@/components/Themed';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigation } from 'expo-router';
 
 
@@ -9,20 +9,31 @@ export default function TabOneScreen() {
   const initialText = '';
   const [email, setEmail] = useState(initialText);
   const [password, setPassword] = useState(initialText);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    setError(false);
+  },[email, password]);
   
   const onPressHandler = () => {
-    setEmail(initialText);
-    setPassword(initialText);
-    // @ts-ignore
-    navigation.navigate('two');
+    const emailRegex = /\S+@\S+\.\S+/;
+    if (!emailRegex.test(email) || password.length < 6) {
+      setError(true);
+      return;
+    }
+    else {
+      setEmail(initialText);
+      setPassword(initialText);
+      // @ts-ignore
+      navigation.navigate('two');
+    }
   }
 
   const isDisabled = email === '' || password === '';
 
   return (
     <View style={styles.container}>
-      <Text style={styles.subtitle}>Bem Vindo! ao InfoCity</Text>
-      <Text style={styles.subtitle}>Faça login para continuar</Text>
+      <Text style={styles.subtitle}>InfoCity</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <Text style={styles.title}>Login</Text>
       <TextInput
@@ -30,14 +41,13 @@ export default function TabOneScreen() {
           onChangeText={setEmail}
           value={email}
           placeholder={'Digite seu Email'}
-        />
+          />
         <TextInput
           style={styles.textInput}
           onChangeText={setPassword}
           value={password}
           placeholder={'Digite sua Senha'}
-        />
-
+          />
         <TouchableOpacity
           accessibilityRole="button"
           style={[
@@ -49,7 +59,7 @@ export default function TabOneScreen() {
 
           <Text style={{textAlign: 'center', color: '#000'}}>Login</Text>
         </TouchableOpacity>
-
+        {error && <Text style={styles.subtitle}>Credenciais invalidas</Text>}
     </View>
   );
 }

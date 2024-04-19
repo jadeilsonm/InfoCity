@@ -1,7 +1,8 @@
-import { StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import { useEffect, useState } from 'react';
 import { useRoute } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type Details = { id: number }
 
@@ -42,19 +43,39 @@ export default function TabDetails() {
 
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.scrollView}>
       <Text style={styles.subtitle}>Detalhes</Text>
+      <Text style={styles.paragrafo}>{details.MUNICIPIO}</Text>
       <Text style={styles.paragrafo}>{details.HISTORICO}</Text>
-    </View>
+      <Text style={styles.paragrafo}>{details.HISTORICO_FONTE}</Text>
+      <Text style={styles.paragrafo}>{details.FORMACAO_ADMINISTRATIVA}</Text>
+      <Text style={styles.paragrafo}>{details.GENTILICO}</Text>
+      <Text style={styles.paragrafo}>{details.ASSUNTOS}</Text>
+      <Text style={styles.paragrafo}>{details.ANO}</Text>
+      <Text style={styles.paragrafo}>{details.ESTADO}</Text>
+      <Text style={styles.paragrafo}>{details.ESTADO1}</Text>
+      <Text style={styles.paragrafo}>{details.JPG}</Text>
+      <Text style={styles.paragrafo}>{details.MP3}</Text>
+      <Text style={styles.paragrafo}>{details.NOTAS}</Text>
+      <Text style={styles.paragrafo}>{details.REGISTRO}</Text>
+      <Text style={styles.paragrafo}>{details.TIPO_MATERIAL}</Text>
+      <Text style={styles.paragrafo}>{details.TITULO_UNIFORME}</Text>
+      <Text style={styles.paragrafo}>{details.VISUALIZACAO}</Text>
+
+    </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 15,
+    paddingTop: 60,
+  },
+  scrollView: {
+    backgroundColor: 'pink',
+    marginHorizontal: 20,
   },
   title: {
     fontSize: 34,
@@ -63,6 +84,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 20,
     fontWeight: 'bold',
+    alignItems: 'center',
   },
   paragrafo: {
     fontSize: 12,
