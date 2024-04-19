@@ -13,9 +13,8 @@ export default function TabOneScreen() {
   const onPressHandler = () => {
     setEmail(initialText);
     setPassword(initialText);
-    const routerName = "two";
     // @ts-ignore
-    navigation.navigate(routerName);
+    navigation.navigate('two');
   }
 
   const isDisabled = email === '' || password === '';

@@ -47,6 +47,14 @@ export default function TabLayout() {
           headerShown: false,
         }}
       />
+       <Tabs.Screen
+        name="details"
+        options={{
+          title: 'Tela de detalhes',
+          headerStyle: { display: 'none' },
+          headerShown: false,
+        }}
+      />
     </Tabs>
   );
 }

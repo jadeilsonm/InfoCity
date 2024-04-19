@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 import { useEffect, useState } from 'react';
 import CardNameCity from '@/components/CardNameCity';
@@ -46,17 +45,14 @@ export default function TabTwoScreen() {
 
 
   useEffect(() => {
-    console.log('fetching data');
     fetch('https://servicodados.ibge.gov.br/api/v1/localidades/municipios')
       .then(response => response.json())
       .then(data => {
-        console.log(data[0]);
         setCity(data);
         setPages(data.slice(itemsPerPage[0], itemsPerPage[1]));
-        setTotalPages(data[0].length / 10);
+        setTotalPages(data.length / 10);
       });
     setLoading(false);
-    console.log('data fetched');
   }, []);
 
   const nextPage = () => {
@@ -73,7 +69,7 @@ export default function TabTwoScreen() {
    
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       { pages.map((city: City, index) => {
-        return <CardNameCity nome={city.nome} uf={city.microrregiao.mesorregiao.UF.sigla} key={city.id} />
+        return <CardNameCity nome={city.nome} uf={city.microrregiao.mesorregiao.UF.sigla} key={index} id={city.id} />
       }) }
     </View>)
 
