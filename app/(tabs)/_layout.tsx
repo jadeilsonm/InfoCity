@@ -42,14 +42,13 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerStyle: { display: 'none' },
           headerShown: false,
+          tabBarStyle: { display: 'none'}
         }}
       />
        <Tabs.Screen
         name="details"
         options={{
           title: 'Tela de detalhes',
-          headerStyle: { display: 'none' },
-          headerShown: false,
         }}
       />
     </Tabs>
