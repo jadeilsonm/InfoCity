@@ -49,6 +49,9 @@ export default function TabLayout() {
         name="details"
         options={{
           title: 'Tela de detalhes',
+          headerStyle: { display: 'none' },
+          headerShown: false,
+          tabBarStyle: { display: 'none'}
         }}
       />
     </Tabs>
