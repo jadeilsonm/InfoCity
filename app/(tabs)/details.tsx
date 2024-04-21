@@ -1,4 +1,5 @@
 import {
+  Image,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -31,10 +32,32 @@ type History = {
   GENTILICO: string;
 };
 
+type InformationCity = {
+  id: number;
+  res: Information;
+};
+
+type Information = {
+  localidade: string;
+  res: any;
+  notas: any;
+};
+
+type Images = {
+  LINK: string;
+  CODIGO_MUNICIPIO: string;
+  ID: string;
+  TITULO: string;
+  AUTOR: string;
+  ANO: string;
+};
+
 export default function TabDetails() {
   const router = useRoute();
   const navigation = useNavigation();
   const [details, setDetails] = useState({} as History);
+  const [informationCity, setInformationCity] = useState();
+  const [images, setImages] = useState("");
 
   useEffect(() => {
     const { id } = router.params as Details;
@@ -48,36 +71,99 @@ export default function TabDetails() {
       });
   }, [router]);
 
+  useEffect(() => {
+    const { id } = router.params as Details;
+    fetch(
+      `https://servicodados.ibge.gov.br/api/v1/pesquisas/indicadores/29170|97907|97911/resultados/${id}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const result = data;
+        setInformationCity(result);
+      });
+  }, [router]);
+
+  useEffect(() => {
+    const { id } = router.params as Details;
+    fetch(
+      `https://servicodados.ibge.gov.br/api/v1/biblioteca?codmun=${id}&aspas=3&fotografias=1`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const result = data;
+        const firstObject = Object.values(result)[0] as Images;
+        const link = `https://servicodados.ibge.gov.br/api/v1/resize/image?maxwidth=600&maxheight=600&caminho=biblioteca.ibge.gov.br/visualizacao/fotografias/GEBIS%20-%20RJ/${
+          firstObject["LINK"] as string
+        }`;
+        setImages(link);
+      });
+  }, [router]);
+
   const onClickBack = () => {
     setDetails({} as History);
+    setImages("");
+    setInformationCity(undefined);
     // @ts-ignore
     navigation.navigate("two");
-  }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity style={styles.button} onPress={onClickBack}>
         <AntDesign name='back' size={24} color='#fafafa' />
-        <Text style={{textAlign: 'center', color: '#ffffff', fontWeight: "bold" }}>Voltar</Text>
+        <Text style={styles.buttonText}>Voltar</Text>
       </TouchableOpacity>
       <ScrollView style={styles.scrollView}>
         <Text style={styles.title}>Detalhes</Text>
-        <Text style={styles.paragrafo}>{details.MUNICIPIO}</Text>
+        <Text style={styles.subtitle}>{details.MUNICIPIO}</Text>
+        {images.length != 0 ? (
+          <>
+            <Image
+              style={styles.image}
+              source={{
+                uri: `${images}`,
+              }}
+            />
+          </>
+        ) : null}
+        {informationCity != undefined ? (
+          <>
+            <Text style={styles.fonte}>
+              Atual prefeito:{" "}
+              {
+                // @ts-ignore
+                Object.values(informationCity[0].res as InformationCity)[0].res[
+                  "2021"
+                ] as string
+              }
+            </Text>
+            <Text style={styles.fonte}>
+              Numero de habitantes:{" "}
+              {
+                // @ts-ignore
+                Object.values(informationCity[1].res as InformationCity)[0].res[
+                  "2022"
+                ] as string
+              }
+            </Text>
+            <Text style={styles.fonte}>
+              Densidade demográfica:{" "}
+              {
+                // @ts-ignore
+                Object.values(informationCity[2].res as InformationCity)[0].res[
+                  "2022"
+                ] as string
+              }
+            </Text>
+          </>
+        ) : null}
+        <Text style={styles.subtitle}>Historia</Text>
         <Text style={styles.paragrafo}>{details.HISTORICO}</Text>
-        <Text style={styles.paragrafo}>{details.HISTORICO_FONTE}</Text>
-        <Text style={styles.paragrafo}>{details.FORMACAO_ADMINISTRATIVA}</Text>
-        <Text style={styles.paragrafo}>{details.GENTILICO}</Text>
-        <Text style={styles.paragrafo}>{details.ASSUNTOS}</Text>
-        <Text style={styles.paragrafo}>{details.ANO}</Text>
-        <Text style={styles.paragrafo}>{details.ESTADO}</Text>
-        <Text style={styles.paragrafo}>{details.ESTADO1}</Text>
-        <Text style={styles.paragrafo}>{details.JPG}</Text>
-        <Text style={styles.paragrafo}>{details.MP3}</Text>
-        <Text style={styles.paragrafo}>{details.NOTAS}</Text>
-        <Text style={styles.paragrafo}>{details.REGISTRO}</Text>
-        <Text style={styles.paragrafo}>{details.TIPO_MATERIAL}</Text>
-        <Text style={styles.paragrafo}>{details.TITULO_UNIFORME}</Text>
-        <Text style={styles.paragrafo}>{details.VISUALIZACAO}</Text>
+        <Text style={styles.paragrafo}>Fonte: {details.HISTORICO_FONTE}</Text>
+        <Text style={styles.fonteHistorico}>
+          Gentilico: {details.GENTILICO}
+        </Text>
+        <Text style={styles.fonteHistorico}>{details.ESTADO}</Text>
       </ScrollView>
     </SafeAreaView>
   );
@@ -95,6 +181,15 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     position: "absolute",
   },
+  buttonText: { textAlign: "center", color: "#ffffff", fontWeight: "bold" },
+  image: {
+    width: 350,
+    height: 350,
+    borderRadius: 0,
+    marginBottom: 10,
+    marginLeft: 10,
+    alignItems: "center",
+  },
   container: {
     flex: 1,
     paddingTop: 60,
@@ -107,30 +202,28 @@ const styles = StyleSheet.create({
     fontSize: 34,
     fontWeight: "bold",
     textAlign: "center",
-    color: "#EE6D00"
+    color: "#EE6D00",
   },
   subtitle: {
     fontSize: 20,
     fontWeight: "bold",
     alignItems: "center",
+    textAlign: "center",
+    marginTop: 18,
+    marginBottom: 18,
   },
   paragrafo: {
     fontSize: 12,
-
+    marginTop: 13,
     fontWeight: "bold",
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
+  fonteHistorico: {
+    fontSize: 12,
+    fontWeight: "bold",
   },
-  buttonDisabled: {
-    backgroundColor: "#5c1818",
-  },
-  textInput: {
-    padding: 15,
-    marginTop: 35,
-    width: "80%",
-    backgroundColor: "#3e3c3c",
+  fonte: {
+    fontSize: 12,
+    marginTop: 2,
+    fontWeight: "bold",
   },
 });
