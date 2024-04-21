@@ -24,7 +24,7 @@ export default function CardNameCity({
       style={[styles.button]}
       key={id}>
       <Text
-        style={styles.button}>
+        style={styles.buttonText}>
         {nome} - {uf}
       </Text>
     </TouchableOpacity>
