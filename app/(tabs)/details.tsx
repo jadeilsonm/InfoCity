@@ -1,9 +1,4 @@
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { Image, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { Text } from "@/components/Themed";
 import { useEffect, useState } from "react";
 import { useRoute } from "@react-navigation/native";
@@ -128,7 +123,7 @@ export default function TabDetails() {
         ) : null}
         {informationCity != undefined ? (
           <>
-            <Text style={styles.fonte}>
+            <Text style={styles.text}>
               Atual prefeito:{" "}
               {
                 // @ts-ignore
@@ -137,7 +132,7 @@ export default function TabDetails() {
                 ] as string
               }
             </Text>
-            <Text style={styles.fonte}>
+            <Text style={styles.text}>
               Numero de habitantes:{" "}
               {
                 // @ts-ignore
@@ -146,7 +141,7 @@ export default function TabDetails() {
                 ] as string
               }
             </Text>
-            <Text style={styles.fonte}>
+            <Text style={styles.text}>
               Densidade demográfica:{" "}
               {
                 // @ts-ignore
@@ -158,12 +153,12 @@ export default function TabDetails() {
           </>
         ) : null}
         <Text style={styles.subtitle}>Historia</Text>
-        <Text style={styles.paragrafo}>{details.HISTORICO}</Text>
-        <Text style={styles.paragrafo}>Fonte: {details.HISTORICO_FONTE}</Text>
-        <Text style={styles.fonteHistorico}>
+        <Text style={styles.paragraph}>{details.HISTORICO}</Text>
+        <Text style={styles.paragraph}>Fonte: {details.HISTORICO_FONTE}</Text>
+        <Text style={styles.textHistory}>
           Gentilico: {details.GENTILICO}
         </Text>
-        <Text style={styles.fonteHistorico}>{details.ESTADO}</Text>
+        <Text style={styles.textHistory}>{details.ESTADO}</Text>
       </ScrollView>
     </SafeAreaView>
   );
@@ -181,7 +176,11 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     position: "absolute",
   },
-  buttonText: { textAlign: "center", color: "#ffffff", fontWeight: "bold" },
+  buttonText: {
+    textAlign: "center",
+    color: "#ffffff",
+    fontWeight: "bold",
+  },
   image: {
     width: 350,
     height: 350,
@@ -212,16 +211,16 @@ const styles = StyleSheet.create({
     marginTop: 18,
     marginBottom: 18,
   },
-  paragrafo: {
+  paragraph: {
     fontSize: 12,
     marginTop: 13,
     fontWeight: "bold",
   },
-  fonteHistorico: {
+  textHistory: {
     fontSize: 12,
     fontWeight: "bold",
   },
-  fonte: {
+  text: {
     fontSize: 12,
     marginTop: 2,
     fontWeight: "bold",

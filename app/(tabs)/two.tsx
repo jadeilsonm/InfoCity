@@ -157,34 +157,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#EE6D00",
   },
-  subtitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-  },
   separator: {
     marginVertical: 30,
     height: 1,
     width: "80%",
-  },
-  button: {
-    padding: 15,
-    marginTop: 35,
-    width: "80%",
-    alignItems: "center",
-    backgroundColor: "#EE6D00",
-    borderRadius: 12,
-  },
-  buttonDisabled: {
-    backgroundColor: "#333333",
-    borderRadius: 12,
-  },
-  textInput: {
-    padding: 15,
-    marginTop: 35,
-    width: "80%",
-    backgroundColor: "#333333",
-    borderRadius: 12,
-    color: "#ffffff",
   },
   pagination: {
     flex: 0,
