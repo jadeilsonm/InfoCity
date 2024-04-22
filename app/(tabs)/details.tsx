@@ -92,7 +92,6 @@ export default function TabDetails() {
         const result = data;
         var link: string | undefined;
         if (result !== undefined) {
-          console.log("res", result);
           const firstObject = Object.values(result)[0] as Images;
           link =
             firstObject !== undefined
