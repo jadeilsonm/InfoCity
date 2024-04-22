@@ -58,20 +58,21 @@ ferramentas usadas para criar o projeto.
 
 Para fazer login devemos seguir a seguinte regra termos ...(.)...(@)... como por exemplo test@gmail.com e termos uma senha com mais de 5 caracteres
 
-![LOGIN](assets/images/login.jpg)
-![LOGIN COM CREDENCIAIS](assets/images/login_credential_key.jpg)
-![LOGIN COM CREDENCIAIS](assets/images/login2.jpg)
+<img src = "assets/images/login.jpg" width = "220" height = "420" />
+<img src = "assets/images/login_credential_key.jpg" width = "220" height = "420" />
+<img src = "assets/images/login2.jpg" width = "220" height = "420" />
+
 
 ### HOME
 
-![HOME](assets/images/home.jpg)
-![HOME COM FILTRO](assets/images/filterd.jpg)
-![HOME COM FILTRO](assets/images/filterd2.jpg)
+<img src = "assets/images/home.jpg" width = "220" height = "420" />
+<img src = "assets/images/filterd.jpg" width = "220" height = "420" />
+<img src = "assets/images/filterd2.jpg" width = "220" height = "420" />
 
 ### DETALHES
 
-![DETAIS](assets/images/details.jpg)
-![DETAILS](assets/images/details2.jpg)
+<img src = "assets/images/details.jpg" width = "220" height = "420" />
+<img src = "assets/images/details2.jpg" width = "220" height = "420" />
 
 
 
