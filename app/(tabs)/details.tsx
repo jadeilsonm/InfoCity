@@ -52,7 +52,7 @@ export default function TabDetails() {
   const navigation = useNavigation();
   const [details, setDetails] = useState({} as History);
   const [informationCity, setInformationCity] = useState();
-  const [images, setImages] = useState("");
+  const [images, setImages] = useState({} as string | undefined);
 
   useEffect(() => {
     const { id } = router.params as Details;
@@ -84,19 +84,34 @@ export default function TabDetails() {
       `https://servicodados.ibge.gov.br/api/v1/biblioteca?codmun=${id}&aspas=3&fotografias=1`
     )
       .then((response) => response.json())
+      .catch((error) => {
+        console.error("error: ", error);
+        setImages(undefined);
+      })
       .then((data) => {
         const result = data;
-        const firstObject = Object.values(result)[0] as Images;
-        const link = `https://servicodados.ibge.gov.br/api/v1/resize/image?maxwidth=600&maxheight=600&caminho=biblioteca.ibge.gov.br/visualizacao/fotografias/GEBIS%20-%20RJ/${
-          firstObject["LINK"] as string
-        }`;
+        var link: string | undefined;
+        if (result !== undefined) {
+          console.log("res", result);
+          const firstObject = Object.values(result)[0] as Images;
+          link =
+            firstObject !== undefined
+              ? `https://servicodados.ibge.gov.br/api/v1/resize/image?maxwidth=600&maxheight=600&caminho=biblioteca.ibge.gov.br/visualizacao/fotografias/GEBIS%20-%20RJ/${
+                  firstObject["LINK"] as string
+                }`
+              : undefined;
+        }
         setImages(link);
+      })
+      .catch((error) => {
+        console.error("error: ", error);
+        setImages(undefined);
       });
   }, [router]);
 
   const onClickBack = () => {
     setDetails({} as History);
-    setImages("");
+    setImages(undefined);
     setInformationCity(undefined);
     // @ts-ignore
     navigation.navigate("two");
@@ -111,7 +126,7 @@ export default function TabDetails() {
       <ScrollView style={styles.scrollView}>
         <Text style={styles.title}>Detalhes</Text>
         <Text style={styles.subtitle}>{details.MUNICIPIO}</Text>
-        {images.length != 0 ? (
+        {images != undefined ? (
           <>
             <Image
               style={styles.image}
@@ -155,9 +170,7 @@ export default function TabDetails() {
         <Text style={styles.subtitle}>Historia</Text>
         <Text style={styles.paragraph}>{details.HISTORICO}</Text>
         <Text style={styles.paragraph}>Fonte: {details.HISTORICO_FONTE}</Text>
-        <Text style={styles.textHistory}>
-          Gentilico: {details.GENTILICO}
-        </Text>
+        <Text style={styles.textHistory}>Gentilico: {details.GENTILICO}</Text>
         <Text style={styles.textHistory}>{details.ESTADO}</Text>
       </ScrollView>
     </SafeAreaView>
